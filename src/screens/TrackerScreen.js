@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { RefreshControl } from 'react-native';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { RefreshControl,FlatList,  } from 'react-native';
 import { TokenComponent } from '../components';
 import axios from 'axios';
 import { TrackerContext } from '../context/TrackerContext';

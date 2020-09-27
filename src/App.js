@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { registerRootComponent } from 'expo';
-import { View, BackHandler, Button } from 'react-native';
+import { View, BackHandler, TouchableOpacity } from 'react-native';
 import { TimeSelectComponent, SearchBarComponent } from './components';
 import { Ionicons } from '@expo/vector-icons';
 
 import { TokenScreen, TrackerScreen } from './screens'
 import TrackerProivider, { TrackerContext } from './context/TrackerContext';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const App = () => {
     const [scene, changeScene] = useState(true);
@@ -39,7 +38,7 @@ const Body = (props) => {
         <SearchBarComponent />
         <TimeSelectComponent />
         {props.scene ? <TrackerScreen /> : <TokenScreen />}
-        <View style={{ borderWidth: 1, position: 'absolute', bottom: 0, alignSelf: 'flex-end' }}>
+        <View style={{ position: 'absolute', bottom: 0, alignSelf: 'flex-end' }}>
             <TouchableOpacity onPress={() => setDarkTheme(!darkTheme)}>
                 <Ionicons name="ios-moon" size={24} color={darkTheme?'#F6F6F6' : '#495162'} />
             </TouchableOpacity>

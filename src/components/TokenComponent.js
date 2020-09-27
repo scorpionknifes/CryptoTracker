@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Dimensions, Image, StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import GraphComponent from './GraphComponent';
 import axios from 'axios';
 import { TrackerContext } from '../context/TrackerContext';
