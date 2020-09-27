@@ -1,15 +1,19 @@
 import React from 'react'
-import { Button, View, Text } from 'react-native';
-import { TimeSelectComponent, TokenComponent } from '../components';
-import SearchBarComponent from '../components/SearchBarComponent';
+import { ScrollView } from 'react-native-gesture-handler';
+import { TokenComponent } from '../components';
 
 const TrackerScreen = () => {
     return (
-        <View style={{ flex: 1 }}>
-            <SearchBarComponent/>
-            <TimeSelectComponent/>
+        <ScrollView>
             <TokenComponent/>
-        </View>
+            <TokenComponent/>
+            <TokenComponent/>
+            <TokenComponent/>
+            <TokenComponent/>
+            <TokenComponent/>
+            <TokenComponent/>
+            <TokenComponent/>
+        </ScrollView>
     );
 }
 

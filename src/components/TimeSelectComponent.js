@@ -14,13 +14,13 @@ const TimeSelectComponent = () => {
     return <View style={styles.container} >
         <HorizontalScrollPicker
             items={timeItems}
-            onSelect={()=>console.log("selected")}
+            onSelect={() => console.log("selected")}
             initialIdx={2}
             rowItems={5}
         />
     </View>
 }
- 
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
