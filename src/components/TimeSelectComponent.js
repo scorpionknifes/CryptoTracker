@@ -14,7 +14,7 @@ const TimeSelectComponent = () => {
     return <View style={styles.container} >
         <HorizontalScrollPicker
             items={timeItems}
-            onSelect={() => console.log("selected")}
+            onSelect={item => console.log(item)}
             initialIdx={2}
             rowItems={5}
         />

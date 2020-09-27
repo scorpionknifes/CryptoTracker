@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { LineChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
+import { View } from 'react-native'
 
-const GraphComponent = () => {
+const GraphComponent = (props) => {
 
-    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+    const data = props.data.history?.map(item => item.rate).filter((value, index, Arr) => {
+        return index % 10 == 0;
+    })
+
+    if (data === undefined) {
+        return <View></View>
+    }
 
     return (
         <LineChart
@@ -13,6 +20,7 @@ const GraphComponent = () => {
             curve={shape.curveBasis}
             svg={{
                 stroke: '#F15A29',
+                strokeWidth: 3,
             }}
         />
     )
