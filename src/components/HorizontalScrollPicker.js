@@ -5,13 +5,13 @@ const { width } = Dimensions.get('window');
 
 
 const HorizontalScrollPicker = (props) => {
-    const size = width / props.rowItems;
+    const { items, rowItems, containerStyle, initialIdx } = props;
+    const sideItems = (rowItems - 1) / 2;
+    const size = width / rowItems;
     const [selected, setSelected] = useState(props.initialIdx);
     const [isParking, setIsParking] = useState(false);
     const [scrollOffset, setScrollOffset] = useState(0);
     const [scrollView, setScrollView] = useState(null);
-    const initialIdx = props.initialIdx;
-
 
     calculateLayout = () => {
         scrollView.scrollTo({ x: initialIdx * size, y: 0, animated: false });
@@ -81,11 +81,6 @@ const HorizontalScrollPicker = (props) => {
         onSelect(selected);
         return selected;
     }
-
-
-    const { items, rowItems, containerStyle } = props;
-
-    const sideItems = (rowItems - 1) / 2;
 
     return (
         <View style={[styles.timelineContainer, { width: rowItems * size }, containerStyle]}>
