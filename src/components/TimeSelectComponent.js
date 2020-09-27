@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import _ from 'lodash';
-import HorizontalScrollPicker from './HorizontalScrollPicker/HorizontalScrollPicker'
+import HorizontalScrollPicker from './HorizontalScrollPicker'
 import { StyleSheet, View } from 'react-native'
 import { TrackerContext } from '../context/TrackerContext';
 

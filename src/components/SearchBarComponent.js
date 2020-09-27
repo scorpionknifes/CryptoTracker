@@ -15,7 +15,7 @@ const SearchBarComponent = () => {
 
     switch (bar) {
         case 'default':
-            return <DefaultBar setBar={setBar} />;
+            return <DefaultBar setBar={setBar} setSearch={setSearch}/>;
         case 'search':
             return <SearchBar setBar={setBar} setSearch={setSearch} search={search} />;
     }
@@ -24,13 +24,14 @@ const SearchBarComponent = () => {
 const DefaultBar = (props) => {
     return <View style={styles.container} >
         <Text style={styles.titleText}>Tracker</Text>
-        <TouchableOpacity onPress={() => props.setBar('search')}>
+        <TouchableOpacity onPress={() => {props.setBar('search'); props.setSearch('')}}>
             <Fontisto style={styles.searchIcon} name="search" size={21} color="black" />
         </TouchableOpacity>
     </View>
 }
 
 const SearchBar = (props) => {
+    const context = useContext(TrackerContext)
     const searchInput = useRef();
     useEffect(() => {
         searchInput.current.focus()
@@ -39,7 +40,7 @@ const SearchBar = (props) => {
         <TextInput
             ref={searchInput}
             style={styles.searchInput}
-            onChangeText={text => props.setSearch(text)}
+            onChangeText={text => {props.setSearch(text); context.setSearch(text)}}
             onBlur={() => props.setBar('default')}
             value={props.search}
             placeholder='Search'

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { AreaChart } from 'react-native-svg-charts'
 import { Defs, LinearGradient, Stop } from 'react-native-svg'
 import * as shape from 'd3-shape'
-import { TrackerContext } from '../context/TrackerContext'
 import { View } from 'react-native'
 
 const GraphGradientComponent = (props) => {

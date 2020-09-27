@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
-import styles from './HorizontalScrollPickerStyle';
 
 const HorizontalScrollPicker = (props) => {
     const size = width / props.rowItems;
@@ -24,7 +23,11 @@ const HorizontalScrollPicker = (props) => {
 
         return (
             <TouchableOpacity
-                onPress={() => { setSelected(idx); props.onSelect(idx); scrollView.scrollTo({ x: idx * size, y: 0, animated: true }) }}
+                onPress={() => {
+                    setSelected(idx);
+                    props.onSelect(idx);
+                    scrollView.scrollTo({ x: idx * size, y: 0, animated: true })
+                }}
                 key={`item-${idx}-${value}`}
                 style={[
                     styles.itemContainer,
@@ -48,7 +51,7 @@ const HorizontalScrollPicker = (props) => {
     };
 
     handleParking = () => {
-        const { onSelect, items } = props;
+        const { onSelect } = props;
 
         setIsParking(true);
 
@@ -109,5 +112,29 @@ const HorizontalScrollPicker = (props) => {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    timelineContainer: {
+        flexGrow: 0,
+        flexDirection: 'row',
+    },
+    itemContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexGrow: 0,
+    },
+    item: {
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        color: '#000',
+        fontSize: 15,
+    },
+    selectedItem: {
+        flex: 1,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: 'transparent',
+    },
+});
 
 export default HorizontalScrollPicker;
