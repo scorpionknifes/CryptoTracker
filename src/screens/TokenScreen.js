@@ -1,33 +1,51 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Text, View, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import GraphGradientComponent from '../components/GraphGradientComponent';
+import { TrackerContext } from '../context/TrackerContext';
+import { percentageIncrease } from '../components/TokenComponent';
+import axios from 'axios';
 
 const TokenScreen = () => {
+    const { header, time, selectedID } = useContext(TrackerContext)
+    const [data, setData] = useState(null)
+
+    useEffect(() => {
+        const getAsset = async () => {
+            try {
+                const { data } = await axios.get(`https://assets-api.sylo.io/v2/asset/id/${selectedID}/rate?fiat=NZD&period=${time}&type=historic`)
+                setData(data)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getAsset()
+    }, [time])
+
+
     return <ScrollView>
         <View style={styles.graphContainer}>
             <View style={styles.cryptoContainer}>
-                <Text style={styles.cryptoValue}>$0.0218</Text>
-                <Text style={styles.cryptoValueChange}>+4.48% ($0.0097)</Text>
+                    <Text style={styles.cryptoValue}>{data?.rate? <>${`${data?.rate}`.substring(0, 6)}</>: <></>}</Text>
+                {percentageIncrease(data?.history)}
             </View>
 
-            <GraphGradientComponent />
+            <GraphGradientComponent data={data}/>
         </View>
         <View style={styles.informationContainer}>
             <Text style={styles.informationTitle}>Information</Text>
             <View style={styles.informationTable}>
                 <View style={styles.informationRow}>
                     <Text style={styles.informationLabel}>Symbol:</Text>
-                    <Text style={styles.informationText}>SYLO</Text>
+                    <Text style={styles.informationText}>{header?.symbol}</Text>
                 </View>
                 <View style={styles.informationRow}>
                     <Text style={styles.informationLabel}>Market Cap:</Text>
-                    <Text style={styles.informationText}>$25,471,051.38 NZD</Text>
+                    <Text style={styles.informationText}>${data?.market_cap?.toFixed(2)} NZD</Text>
                 </View>
                 <View style={styles.informationRow}>
                     <Text style={styles.informationLabel}>24h Volume:</Text>
-                    <Text style={styles.informationText}>$58,905.49 NZD</Text>
+                    <Text style={styles.informationText}>${data?.volume_24h?.toFixed(2)} NZD</Text>
                 </View>
-
             </View>
         </View>
     </ScrollView>

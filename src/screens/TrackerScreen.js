@@ -10,15 +10,20 @@ const TrackerScreen = () => {
     const [number, setNumber] = useState(0);
 
     const renderItem = ({item}) => {
-        return <TokenComponent name={item.name} uri={item.icon_address} id={item.id}/>
+        return <TokenComponent name={item.name} uri={item.icon_address} id={item.id} symbol={item.symbol}/>
     }
 
     const getAll = async() => {
-        setRefreshing(true);
-        res = await axios.get(`https://assets-api.sylo.io/v2/all?take=${number+10}&search=&has_history_only=true&skip=${number}`)
-        setNumber(number+res.data.length)
-        setData([...data, ...res.data])
-        setRefreshing(false)
+        try {
+            setRefreshing(true);
+            res = await axios.get(`https://assets-api.sylo.io/v2/all?take=${number+10}&search=&has_history_only=true&skip=${number}`)
+            setNumber(number+res.data.length)
+            setData([...data, ...res.data])
+            setRefreshing(false)
+        }catch(e){
+            console.log(e)
+        }
+        
     }
  
     useEffect(() => {

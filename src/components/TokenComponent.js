@@ -7,46 +7,37 @@ import { TrackerContext } from '../context/TrackerContext';
 
 const TokenComponent = (props) => {
 
-    const { changeScene, setSelectedID, setHeader } = useContext(TrackerContext);
+    const { changeScene, setSelectedID, setHeader, setCurrentInfo, time } = useContext(TrackerContext);
+    const [loading, setLoading] = useState(true);
 
-    const { name, uri, id } = props;
+    const { name, uri, symbol, id } = props;
     const [data, setData] = useState({})
 
     useEffect(() => {
         const getAsset = async () => {
-            const { data } = await axios.get(`https://assets-api.sylo.io/v2/asset/id/${id}/rate?fiat=NZD&period=${'week'}&type=historic`)
-            setData(data)
+            try {
+                const { data } = await axios.get(`https://assets-api.sylo.io/v2/asset/id/${id}/rate?fiat=NZD&period=${time}&type=historic`)
+                setData(data)
+                setLoading(false)
+            } catch (e) {
+                console.log(e)
+            }
         }
         getAsset()
 
-    }, [])
+    }, [time])
 
     const handleTokenClick = () => {
-        setHeader({
-            name: name,
-            uri: uri,
-        })
-        setSelectedID(id);
-        changeScene(false);
-    }
-
-    const percentageIncrease = (history) => {
-        if (history === undefined) {
-            return <Text style={styles.cryptoValueChange}></Text>
+        if (!loading) {
+            setHeader({
+                name: name,
+                uri: uri,
+                symbol: symbol,
+            })
+            setSelectedID(id);
+            setCurrentInfo(data)
+            changeScene(false);
         }
-        const before = history[0].rate;
-        const after = history[history.length - 1].rate;
-
-        let increaseString
-        let increase = (after - before) / after;
-
-        if (increase >= 0) {
-            increaseString = `+${(increase * 100.0).toFixed(2)}% ($${`${increase}`.substring(0, 6)})`
-        } else {
-            increaseString = `${(increase * 100.0).toFixed(2)}% ($${`${increase}`.substring(0, 6)})`
-        }
-
-        return <Text style={[styles.cryptoValueChange, { color: after >= before ? '#33BB5D' : '#bb3333' }]}>{increaseString}</Text>
     }
 
     return <TouchableOpacity style={styles.tokenContainer} onPress={handleTokenClick}>
@@ -59,13 +50,39 @@ const TokenComponent = (props) => {
                 <Text style={styles.cryptoText}>{name}</Text>
             </View>
             <View style={styles.cryptoValueContainer}>
-                <Text style={styles.cryptoValue}>${`${data?.rate}`.substring(0, 6)}</Text>
-                {percentageIncrease(data?.history)}
+                {data?.rate ?
+                    <>
+                        <Text style={styles.cryptoValue}>${`${data?.rate}`.substring(0, 6)}</Text>
+                        {percentageIncrease(data?.history)}
+                    </> :
+                    <Text />
+                }
+
             </View>
         </View>
         <GraphComponent data={data} />
     </TouchableOpacity>
 }
+
+const percentageIncrease = (history) => {
+    if (history === undefined) {
+        return <Text style={styles.cryptoValueChange}></Text>
+    }
+    const before = history[0].rate;
+    const after = history[history.length - 1].rate;
+
+    let increaseString
+    let increase = (after - before) / after;
+
+    if (increase >= 0) {
+        increaseString = `+${(increase * 100.0).toFixed(2)}% ($${`${increase}`.substring(0, 6)})`
+    } else {
+        increaseString = `${(increase * 100.0).toFixed(2)}% ($${`${increase}`.substring(0, 6)})`
+    }
+
+    return <Text style={[styles.cryptoValueChange, { color: after >= before ? '#33BB5D' : '#bb3333' }]}>{increaseString}</Text>
+}
+
 
 const styles = StyleSheet.create({
     tokenContainer: {
@@ -116,3 +133,4 @@ const styles = StyleSheet.create({
 
 
 export default TokenComponent
+export { percentageIncrease }

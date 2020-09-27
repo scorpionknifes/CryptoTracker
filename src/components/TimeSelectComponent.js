@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import _ from 'lodash';
 import HorizontalScrollPicker from './HorizontalScrollPicker/HorizontalScrollPicker'
 import { StyleSheet, View } from 'react-native'
+import { TrackerContext } from '../context/TrackerContext';
 
-const timeItems = _.map(['all', 'year', 'month', 'week', 'day'], (time, idx) => {
+const times = ['all', 'year', 'month', 'week', 'day'];
+
+const timeItems = _.map(times, (time, idx) => {
     return {
         label: time,
         value: idx
@@ -11,10 +14,11 @@ const timeItems = _.map(['all', 'year', 'month', 'week', 'day'], (time, idx) => 
 });
 
 const TimeSelectComponent = () => {
+    const { setTime } = useContext(TrackerContext);
     return <View style={styles.container} >
         <HorizontalScrollPicker
             items={timeItems}
-            onSelect={item => console.log(item)}
+            onSelect={item => setTime(times[item])}
             initialIdx={2}
             rowItems={5}
         />

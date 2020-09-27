@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AreaChart } from 'react-native-svg-charts'
 import { Defs, LinearGradient, Stop } from 'react-native-svg'
 import * as shape from 'd3-shape'
+import { TrackerContext } from '../context/TrackerContext'
+import { View } from 'react-native'
 
-const GraphGradientComponent = () => {
+const GraphGradientComponent = (props) => {
+    const data = props.data?.history?.map(item => item.rate < 0 ? 0 : item.rate).filter((value, index, Arr) => {
+        return index % 10 == 0;
+    })
 
-    const data = [50, 10, 40, 95, 4, 24, 85, 91, 35, 53, 53, 24, 50, 20, 90]
+    if (data === undefined) {
+        return <View></View>
+    }
 
-    const Gradient = ({ index }) => (
-        <Defs key={index}>
-            <LinearGradient id={'gradient'} x1={'0%'} y1={'0%'} x2={'0%'} y2={'100%'}>
+    const Gradient = () => (
+        <Defs>
+            <LinearGradient id={'gradient'} x1={'0'} y1={'0%'} x2={'0'} y2={'100%'} gradientUnits='userSpaceOnUse'>
                 <Stop offset={'0%'} stopColor={'#F15A29'} stopOpacity={0.2} />
                 <Stop offset={'100%'} stopColor={'#F15A29'} stopOpacity={0.0} />
             </LinearGradient>

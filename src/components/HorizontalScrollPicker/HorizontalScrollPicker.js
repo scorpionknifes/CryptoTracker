@@ -24,7 +24,7 @@ const HorizontalScrollPicker = (props) => {
 
         return (
             <TouchableOpacity
-                onPress={() => { setSelected(idx); scrollView.scrollTo({ x: idx * size, y: 0, animated: true }) }}
+                onPress={() => { setSelected(idx); props.onSelect(idx); scrollView.scrollTo({ x: idx * size, y: 0, animated: true }) }}
                 key={`item-${idx}-${value}`}
                 style={[
                     styles.itemContainer,
@@ -58,7 +58,7 @@ const HorizontalScrollPicker = (props) => {
                 setSelected(selected)
                 setIsParking();
                 scrollView.scrollTo({ y: 0, x: size * selected, animated: true });
-                onSelect(items[selected].value);
+                onSelect(selected);
             }
         }, 150);
     };
@@ -75,7 +75,7 @@ const HorizontalScrollPicker = (props) => {
 
         setSelected(selected)
 
-        onSelect(items[selected].value);
+        onSelect(selected);
         return selected;
     }
 

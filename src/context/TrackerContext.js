@@ -7,6 +7,8 @@ const TrackerProivider = (props) => {
     const [darkTheme, setDarkTheme] = useState(false)
     const [selectedID, setSelectedID] = useState('')
     const [header, setHeader] = useState(null)
+    const [time, setTime] = useState('month')
+    const [currentInfo, setCurrentInfo] = useState(null)
     const changeScene = props.changeScene
 
     return (
@@ -15,6 +17,8 @@ const TrackerProivider = (props) => {
             darkTheme, setDarkTheme,
             selectedID, setSelectedID,
             header, setHeader,
+            time, setTime,
+            currentInfo, setCurrentInfo,
             changeScene,
         }}>
             {props.children}
