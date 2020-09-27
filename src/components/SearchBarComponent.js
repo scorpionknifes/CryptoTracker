@@ -15,61 +15,63 @@ const SearchBarComponent = () => {
 
     switch (bar) {
         case 'default':
-            return <DefaultBar setBar={setBar} setSearch={setSearch}/>;
+            return <DefaultBar setBar={setBar} setSearch={setSearch} />;
         case 'search':
             return <SearchBar setBar={setBar} setSearch={setSearch} search={search} />;
     }
 }
 
 const DefaultBar = (props) => {
+    const { darkTheme } = useContext(TrackerContext);
     return <View style={styles.container} >
-        <Text style={styles.titleText}>Tracker</Text>
-        <TouchableOpacity onPress={() => {props.setBar('search'); props.setSearch('')}}>
-            <Fontisto style={styles.searchIcon} name="search" size={21} color="black" />
+        <Text style={[styles.titleText, { color: darkTheme ? '#F6F6F6' : '#495162' }]}>Tracker</Text>
+        <TouchableOpacity onPress={() => { props.setBar('search'); props.setSearch('') }}>
+            <Fontisto style={styles.searchIcon} name="search" size={21} color={darkTheme ? '#F6F6F6' : '#495162'} />
         </TouchableOpacity>
     </View>
 }
 
 const SearchBar = (props) => {
-    const context = useContext(TrackerContext)
+    const context = useContext(TrackerContext);
+    const { darkTheme } = useContext(TrackerContext);
     const searchInput = useRef();
     useEffect(() => {
-        searchInput.current.focus()
+        searchInput.current.focus();
     }, [])
     return <View style={styles.container} >
         <TextInput
             ref={searchInput}
-            style={styles.searchInput}
-            onChangeText={text => {props.setSearch(text); context.setSearch(text)}}
+            style={[styles.searchInput, { color: darkTheme ? '#F6F6F6' : '#495162' }]}
+            onChangeText={text => { props.setSearch(text); context.setSearch(text) }}
             onBlur={() => props.setBar('default')}
             value={props.search}
             placeholder='Search'
         />
         <TouchableOpacity onPress={() => props.setBar('default')}>
-            <Fontisto style={styles.searchIcon} name="search" size={21} color="black" />
+            <Fontisto style={styles.searchIcon} name="search" size={21} color={darkTheme ? '#F6F6F6' : '#495162'} />
         </TouchableOpacity>
     </View>
 }
 
 const CryptoBar = (props) => {
-    const { changeScene, setHeader } = useContext(TrackerContext);
+    const { changeScene, setHeader, darkTheme } = useContext(TrackerContext);
 
     const handleBack = () => {
-        changeScene(true); 
-        setHeader(null); 
+        changeScene(true);
+        setHeader(null);
         props.setBar('default');
     }
 
     return <View style={styles.container} >
         <TouchableOpacity onPress={handleBack}>
-            <Ionicons style={styles.backIcon} name="ios-arrow-back" size={24} color="black" />
+            <Ionicons style={styles.backIcon} name="ios-arrow-back" size={24} color={darkTheme ? '#F6F6F6' : '#495162'} />
         </TouchableOpacity>
         <View style={styles.cryptoContainer}>
             <Image
                 style={styles.cryptoLogo}
                 source={{ uri: props.header.uri }}
             />
-            <Text style={styles.cryptoName}>{props.header.name}</Text>
+            <Text style={[styles.cryptoName, { color: darkTheme ? '#F6F6F6' : '#495162' }]}>{props.header.name}</Text>
         </View>
     </View>
 }
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     searchInput: {
-        borderColor: '#F6F6F6',
+        borderColor: 'rgba(236, 236, 236, 0.3)',
         borderWidth: 2,
         width: Dimensions.get('window').width - 64,
         marginLeft: 23,
@@ -112,16 +114,11 @@ const styles = StyleSheet.create({
     cryptoLogo: {
         width: 30,
         height: 30,
-        
     },
     cryptoName: {
-        color: '#495162',
         marginLeft: 12,
         fontSize: 18,
     },
-    backIcon: {
-
-    }
 })
 
 export default SearchBarComponent

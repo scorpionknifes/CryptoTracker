@@ -7,7 +7,7 @@ import { TrackerContext } from '../context/TrackerContext';
 
 const TokenComponent = (props) => {
 
-    const { changeScene, setSelectedID, setHeader, setCurrentInfo, time } = useContext(TrackerContext);
+    const { changeScene, setSelectedID, setHeader, setCurrentInfo, time, darkTheme } = useContext(TrackerContext);
     const [loading, setLoading] = useState(true);
 
     const { name, uri, symbol, id } = props;
@@ -47,12 +47,12 @@ const TokenComponent = (props) => {
                     style={styles.cryptoLogo}
                     source={{ uri: uri }}
                 />
-                <Text style={styles.cryptoText}>{name}</Text>
+                <Text style={[styles.cryptoText, { color: darkTheme ? '#F6F6F6' : '#495162' }]}>{name}</Text>
             </View>
             <View style={styles.cryptoValueContainer}>
                 {data?.rate ?
                     <>
-                        <Text style={styles.cryptoValue}>${`${data?.rate}`.substring(0, 6)}</Text>
+                        <Text style={[styles.cryptoValue, { color: darkTheme ? '#F6F6F6' : '#495162' }]}>${`${data?.rate}`.substring(0, 6)}</Text>
                         {percentageIncrease(data?.history)}
                     </> :
                     <Text />
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 8,
         borderWidth: 2,
-        borderColor: "#F6F6F6",
+        borderColor: "rgba(236, 236, 236, 0.3)",
         borderRadius: 15,
     },
     cryptoContainer: {

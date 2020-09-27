@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { registerRootComponent } from 'expo';
-import { View, BackHandler } from 'react-native';
+import { View, BackHandler, Button } from 'react-native';
 import { TimeSelectComponent, SearchBarComponent } from './components';
+import { Ionicons } from '@expo/vector-icons';
 
 import { TokenScreen, TrackerScreen } from './screens'
-import TrackerProivider from './context/TrackerContext';
+import TrackerProivider, { TrackerContext } from './context/TrackerContext';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const App = () => {
     const [scene, changeScene] = useState(true);
@@ -13,7 +15,7 @@ const App = () => {
         const backAction = () => {
             if (scene) {
                 BackHandler.exitApp()
-            }else{
+            } else {
                 changeScene(false)
             }
         };
@@ -26,13 +28,23 @@ const App = () => {
 
     return (
         <TrackerProivider changeScene={changeScene}>
-            <View style={{ flex: 1 }}>
-                <SearchBarComponent />
-                <TimeSelectComponent />
-                {scene ? <TrackerScreen /> : <TokenScreen />}
-            </View>
+            <Body scene={scene} />
         </TrackerProivider>
     );
+}
+
+const Body = (props) => {
+    const { darkTheme, setDarkTheme } = useContext(TrackerContext);
+    return (<View style={{ flex: 1, backgroundColor: darkTheme ? 'black' : 'white' }}>
+        <SearchBarComponent />
+        <TimeSelectComponent />
+        {props.scene ? <TrackerScreen /> : <TokenScreen />}
+        <View style={{ borderWidth: 1, position: 'absolute', bottom: 0, alignSelf: 'flex-end' }}>
+            <TouchableOpacity onPress={() => setDarkTheme(!darkTheme)}>
+                <Ionicons name="ios-moon" size={24} color={darkTheme?'#F6F6F6' : '#495162'} />
+            </TouchableOpacity>
+        </View>
+    </View>)
 }
 
 registerRootComponent(App);

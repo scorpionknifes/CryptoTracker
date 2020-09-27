@@ -4,9 +4,9 @@ export const TrackerContext = createContext();
 
 const TrackerProivider = (props) => {
     const [currency, setCurrency] = useState('NZD')
-    const [darkTheme, setDarkTheme] = useState(false)
+    const [darkTheme, setDarkTheme] = useState(true)
     const [selectedID, setSelectedID] = useState('')
-    const [header, setHeader] = useState(null)
+    const [header, setHeader] = useState(null) 
     const [time, setTime] = useState('month')
     const [search, setSearch] = useState("")
     const [currentInfo, setCurrentInfo] = useState(null)

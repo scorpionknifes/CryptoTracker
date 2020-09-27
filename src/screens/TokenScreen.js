@@ -6,7 +6,7 @@ import { percentageIncrease } from '../components/TokenComponent';
 import axios from 'axios';
 
 const TokenScreen = () => {
-    const { header, time, selectedID } = useContext(TrackerContext)
+    const { header, time, selectedID, darkTheme } = useContext(TrackerContext)
     const [data, setData] = useState(null)
 
     useEffect(() => {
@@ -21,18 +21,25 @@ const TokenScreen = () => {
         getAsset()
     }, [time])
 
+    const numberWithCommas = (x) => {
+        if (x == undefined) {
+            return "0.00"
+        }
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
 
     return <ScrollView>
         <View style={styles.graphContainer}>
             <View style={styles.cryptoContainer}>
-                    <Text style={styles.cryptoValue}>{data?.rate? <>${`${data?.rate}`.substring(0, 6)}</>: <></>}</Text>
+                <Text style={[styles.cryptoValue, { color: darkTheme ? '#F6F6F6' : '#495162' }]}>{data?.rate ? <>${`${data?.rate}`.substring(0, 6)}</> : <></>}</Text>
                 {percentageIncrease(data?.history)}
             </View>
 
-            <GraphGradientComponent data={data}/>
+            <GraphGradientComponent data={data} />
         </View>
         <View style={styles.informationContainer}>
-            <Text style={styles.informationTitle}>Information</Text>
+            <Text style={[styles.informationTitle, { color: darkTheme ? '#F6F6F6' : '#495162' }]}>Information</Text>
             <View style={styles.informationTable}>
                 <View style={styles.informationRow}>
                     <Text style={styles.informationLabel}>Symbol:</Text>
@@ -40,11 +47,11 @@ const TokenScreen = () => {
                 </View>
                 <View style={styles.informationRow}>
                     <Text style={styles.informationLabel}>Market Cap:</Text>
-                    <Text style={styles.informationText}>${data?.market_cap?.toFixed(2)} NZD</Text>
+                    <Text style={styles.informationText}>${numberWithCommas(data?.market_cap?.toFixed(2))} NZD</Text>
                 </View>
                 <View style={styles.informationRow}>
                     <Text style={styles.informationLabel}>24h Volume:</Text>
-                    <Text style={styles.informationText}>${data?.volume_24h?.toFixed(2)} NZD</Text>
+                    <Text style={styles.informationText}>${numberWithCommas(data?.volume_24h?.toFixed(2))} NZD</Text>
                 </View>
             </View>
         </View>
@@ -58,7 +65,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 24,
         marginVertical: 8,
         borderWidth: 2,
-        borderColor: '#F6F6F6',
+        borderColor: 'rgba(236, 236, 236, 0.3)',
         overflow: 'hidden',
         borderRadius: 15,
     },
