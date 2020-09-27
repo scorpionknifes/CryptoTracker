@@ -1,13 +1,14 @@
 import React from 'react'
 import { Button, View, Text } from 'react-native';
+import { TimeSelectComponent, TokenComponent } from '../components';
+import SearchBarComponent from '../components/SearchBarComponent';
 
-const TrackerScreen = ({ navigation }) => {
+const TrackerScreen = () => {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
-            <Button
-                title="Go to Details"
-            />
+        <View style={{ flex: 1 }}>
+            <SearchBarComponent/>
+            <TimeSelectComponent/>
+            <TokenComponent/>
         </View>
     );
 }
