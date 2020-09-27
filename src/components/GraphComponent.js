@@ -1,5 +1,6 @@
 import React from 'react'
-import { LineChart, Grid } from 'react-native-svg-charts'
+import { LineChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 const GraphComponent = () => {
 
@@ -9,8 +10,9 @@ const GraphComponent = () => {
         <LineChart
             style={{ flex: 1 }}
             data={data}
+            curve={shape.curveBasis}
             svg={{
-                stroke: 'rgb(134, 65, 244)',
+                stroke: '#F15A29',
             }}
         />
     )
