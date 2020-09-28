@@ -60,9 +60,9 @@ const TokenScreen = () => {
 
 const styles = StyleSheet.create({
     graphContainer: {
-        width: Dimensions.get('window').width - 32,
+        width: Dimensions.get('window').width - 40,
         height: 185,
-        marginHorizontal: 24,
+        marginHorizontal: 20,
         marginVertical: 8,
         borderWidth: 2,
         borderColor: 'rgba(236, 236, 236, 0.3)',
